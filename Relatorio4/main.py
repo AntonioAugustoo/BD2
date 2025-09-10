@@ -10,4 +10,4 @@ analyzer = ProductAnalyzer(db)
 analyzer.totalVendasDia()
 analyzer.produtoMaisVendido()
 analyzer.clienteMaiorGasto()
-analyzer.produtosMaisDeUmaCompra()
+analyzer.produtosMaisDeUmaCompra()w

@@ -1,0 +1,31 @@
+{
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": ["id", "titulo", "autor", "ano", "preco"],
+      "properties": {
+        "id": {
+          "bsonType": "int",
+          "description": "ID do livro como número inteiro "
+        },
+        "titulo": {
+          "bsonType": "string",
+          "description": "Título do livro ( string obrigatório)"
+        },
+        "autor": {
+          "bsonType": "string",
+          "description": "Autor do livro (string obrigatória)"
+        },
+        "ano": {
+          "bsonType": "int",
+          "minimum": 1000,
+          "maximum": 2023,
+          "description": "Ano de publicação do livro (inteiro entre 1000 e 2023, numero int obrigatório)"
+        },
+        "preco": {
+          "bsonType": "double",
+          "description": "Preço do livro (double obrigatorio)"
+        }
+      }
+    }
+  }
+  
