@@ -1,0 +1,57 @@
+MATCH (n) DETACH DELETE n;
+
+CREATE (roberto:Pessoa:Aposentado {nome: 'Roberto Silva', sexo: 'Masculino', idade: 70});
+CREATE (clara:Pessoa:Artista {nome: 'Clara Mendes', sexo: 'Feminino', idade: 68});
+CREATE (marcos:Pessoa:Engenheiro {nome: 'Marcos Silva', sexo: 'Masculino', idade: 45});
+CREATE (ana:Pessoa:Medica {nome: 'Ana Pereira', sexo: 'Feminino', idade: 43});
+CREATE (paulo:Pessoa:Advogado {nome: 'Paulo Silva', sexo: 'Masculino', idade: 42});
+CREATE (lucas:Pessoa:Estudante {nome: 'Lucas Silva', sexo: 'Masculino', idade: 20});
+CREATE (julia:Pessoa:Estudante {nome: 'Julia Silva', sexo: 'Feminino', idade: 18});
+CREATE (leo:Pessoa:Crianca {nome: 'Leo Silva', sexo: 'Masculino', idade: 10});
+CREATE (rex:Pet:Cachorro {nome: 'Rex', raca: 'Golden Retriever', idade: 5});
+CREATE (garfield:Pet:Gato {nome: 'Garfield', raca: 'Persa', idade: 7});
+
+MATCH (roberto:Pessoa {nome: 'Roberto Silva'}), (clara:Pessoa {nome: 'Clara Mendes'})
+CREATE (roberto)-[:ESPOSO_DE {casados_desde: 1975}]->(clara);
+
+MATCH (marcos:Pessoa {nome: 'Marcos Silva'}), (paulo:Pessoa {nome: 'Paulo Silva'})
+CREATE (marcos)-[:IRMAO_DE]->(paulo);
+
+MATCH (roberto:Pessoa {nome: 'Roberto Silva'}), (marcos:Pessoa {nome: 'Marcos Silva'})
+CREATE (roberto)-[:PAI_DE]->(marcos);
+
+MATCH (roberto:Pessoa {nome: 'Roberto Silva'}), (paulo:Pessoa {nome: 'Paulo Silva'})
+CREATE (roberto)-[:PAI_DE]->(paulo);
+
+MATCH (clara:Pessoa {nome: 'Clara Mendes'}), (marcos:Pessoa {nome: 'Marcos Silva'})
+CREATE (clara)-[:PAI_DE]->(marcos);
+
+MATCH (clara:Pessoa {nome: 'Clara Mendes'}), (paulo:Pessoa {nome: 'Paulo Silva'})
+CREATE (clara)-[:PAI_DE]->(paulo);
+
+MATCH (marcos:Pessoa {nome: 'Marcos Silva'}), (ana:Pessoa {nome: 'Ana Pereira'})
+CREATE (marcos)-[:ESPOSO_DE {casados_desde: 2002}]->(ana);
+
+MATCH (marcos:Pessoa {nome: 'Marcos Silva'}), (lucas:Pessoa {nome: 'Lucas Silva'})
+CREATE (marcos)-[:PAI_DE]->(lucas);
+
+MATCH (marcos:Pessoa {nome: 'Marcos Silva'}), (julia:Pessoa {nome: 'Julia Silva'})
+CREATE (marcos)-[:PAI_DE]->(julia);
+
+MATCH (ana:Pessoa {nome: 'Ana Pereira'}), (lucas:Pessoa {nome: 'Lucas Silva'})
+CREATE (ana)-[:PAI_DE]->(lucas);
+
+MATCH (ana:Pessoa {nome: 'Ana Pereira'}), (julia:Pessoa {nome: 'Julia Silva'})
+CREATE (ana)-[:PAI_DE]->(julia);
+
+MATCH (paulo:Pessoa {nome: 'Paulo Silva'}), (leo:Pessoa {nome: 'Leo Silva'})
+CREATE (paulo)-[:PAI_DE]->(leo);
+
+MATCH (lucas:Pessoa {nome: 'Lucas Silva'}), (julia:Pessoa {nome: 'Julia Silva'})
+CREATE (lucas)-[:IRMAO_DE]->(julia);
+
+MATCH (lucas:Pessoa {nome: 'Lucas Silva'}), (rex:Pet {nome: 'Rex'})
+CREATE (lucas)-[:DONO_DE {adotado_em: 2021}]->(rex);
+
+MATCH (clara:Pessoa {nome: 'Clara Mendes'}), (garfield:Pet {nome: 'Garfield'})
+CREATE (clara)-[:DONO_DE]->(garfield);
