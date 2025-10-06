@@ -1,0 +1,97 @@
+
+// CRIAÇÃO DE JURADOS
+CREATE(j:Jurado{nome:'Ewel'});
+CREATE(j:Jurado{nome:'Gabriel'});
+CREATE(j:Jurado{nome:'Davi'});
+
+// CRIAÇÃO DE GAMES
+CREATE(g:Game{titulo:'League of Legends',genero:'MOBA',ano:2009});
+CREATE(g:Game{titulo:'Minecraft',genero:'Sandbox',ano:2011});
+CREATE(g:Game{titulo:'Phasmophobia',genero:'Terror',ano:2020});
+CREATE(g:Game{titulo:'Warzone',genero:'Shooter',ano:2019});
+
+// CRIAÇÃO DE LOJAS
+CREATE(l:Loja{nome:'Steam'});
+CREATE(l:Loja{nome:'Xbox'});
+CREATE(l:Loja{nome:'Battlenet'});
+
+// RELAÇÃO ENTRE JURADOS E GAMES
+MATCH(j:Jurado{nome:'Ewel'}),(g:Game{titulo:'Warzone'})
+CREATE(j)-[:JOGOU{nota:10, horas:500}]->(g);
+
+MATCH(j:Jurado{nome:'Ewel'}),(g:Game{titulo:'League of Legends'})
+CREATE(j)-[:JOGOU{nota:10, horas: 1000}]->(g);
+
+MATCH(j:Jurado{nome:'Gabriel'}),(g:Game{titulo:'Warzone'})
+CREATE(j)-[:JOGOU{nota:6, horas: 156}]->(g);
+
+MATCH(j:Jurado{nome:'Gabriel'}),(g:Game{titulo:'Minecraft'})
+CREATE(j)-[:JOGOU{nota:10, horas: 200}]->(g);
+
+MATCH(j:Jurado{nome:'Gabriel'}),(g:Game{titulo:'League of Legends'})
+CREATE(j)-[:JOGOU{nota:9, horas: 10000}]->(g);
+
+MATCH(j:Jurado{nome:'Davi'}),(g:Game{titulo:'Minecraft'})
+CREATE(j)-[:JOGOU{nota:10, horas: 12000}]->(g);
+
+MATCH(j:Jurado{nome:'Davi'}),(g:Game{titulo:'Phasmophobia'})
+CREATE(j)-[:JOGOU{nota:5, horas: 2}]->(g);
+
+
+// =================================================================
+// QUESTÃO 01 - CONSULTAS
+// =================================================================
+
+// 1. Todos os registros do banco de dados.
+MATCH (n)
+RETURN n;
+
+// 2. Jogos lançados após o ano de 2012.
+MATCH (g:Game)
+WHERE g.ano > 2012
+RETURN g.titulo AS Jogo, g.ano AS Ano_Lancamento;
+
+// 3. Jogos do gênero de terror.
+MATCH (g:Game)
+WHERE g.genero = 'Terror'
+RETURN g.titulo AS Jogo_de_Terror;
+
+// 4. Jogos com uma nota igual ou maior que 7.
+MATCH (jurado:Jurado)-[r:JOGOU]->(game:Game)
+WHERE r.nota >= 7
+RETURN DISTINCT game.titulo AS Jogo_com_Nota_Alta, r.nota AS Nota, jurado.nome AS Avaliador;
+
+
+// =================================================================
+// QUESTÃO 02 - ADIÇÃO DE NOVOS DADOS
+// =================================================================
+
+// 1. Acrescente quatro novos jogos ao banco de dados.
+CREATE (:Game {titulo: 'Valorant', genero: 'Shooter', ano: 2020}),
+       (:Game {titulo: 'Elden Ring', genero: 'RPG', ano: 2022}),
+       (:Game {titulo: 'Stardew Valley', genero: 'Simulation', ano: 2016}),
+       (:Game {titulo: 'Red Dead Redemption 2', genero: 'Action-Adventure', ano: 2018});
+
+// 2. Adicione três novos jurados ao banco de dados.
+CREATE (:Jurado {nome: 'Ana'}),
+       (:Jurado {nome: 'Carlos'}),
+       (:Jurado {nome: 'Beatriz'});
+
+// 3. Estabeleça as relações entre os novos jurados e os jogos.
+MATCH(j:Jurado{nome:'Ana'}),(g:Game{titulo:'Valorant'})
+CREATE(j)-[:JOGOU{nota:9, horas:450}]->(g);
+
+MATCH(j:Jurado{nome:'Ana'}),(g:Game{titulo:'Stardew Valley'})
+CREATE(j)-[:JOGOU{nota:10, horas:300}]->(g);
+
+MATCH(j:Jurado{nome:'Carlos'}),(g:Game{titulo:'Elden Ring'})
+CREATE(j)-[:JOGOU{nota:10, horas:200}]->(g);
+
+MATCH(j:Jurado{nome:'Carlos'}),(g:Game{titulo:'Red Dead Redemption 2'})
+CREATE(j)-[:JOGOU{nota:9, horas:150}]->(g);
+
+MATCH(j:Jurado{nome:'Beatriz'}),(g:Game{titulo:'Minecraft'})
+CREATE(j)-[:JOGOU{nota:8, horas:1000}]->(g);
+
+MATCH(j:Jurado{nome:'Beatriz'}),(g:Game{titulo:'League of Legends'})
+CREATE(j)-[:JOGOU{nota:7, horas:2000}]->(g);

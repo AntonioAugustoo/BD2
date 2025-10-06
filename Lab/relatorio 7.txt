@@ -1,0 +1,88 @@
+
+// 1.1. Contar o número total de artigos (Papers) na base de dados.
+MATCH (p:Paper)
+RETURN count(p) AS totalDeArtigos;
+
+// 1.2. Encontrar o autor com o maior número de publicações e mostrar a contagem.
+MATCH (a:Author)-[:AUTHORED_BY]->(p:Paper)
+RETURN a.name AS autor, count(p) AS numeroDePublicacoes
+ORDER BY numeroDePublicacoes DESC
+LIMIT 1;
+
+// 1.3. Calcular a soma de todas as citações recebidas por um autor específico (ex: 'Jennifer Widom').
+MATCH (a:Author {name: 'Jennifer Widom'})-[:AUTHORED_BY]->(p:Paper)
+RETURN a.name AS autor, sum(p.citations) AS totalDeCitacoes;
+
+// 1.4. Encontrar a média de citações por artigo, por ano de publicação.
+MATCH (p:Paper)
+RETURN p.year AS ano, avg(p.citations) AS mediaDeCitacoesPorArtigo
+ORDER BY ano DESC;
+
+// 1.5. Coletar e listar todos os títulos de artigos publicados por um autor específico em uma única lista.
+MATCH (a:Author {name: 'Jennifer Widom'})-[:AUTHORED_BY]->(p:Paper)
+RETURN a.name AS autor, collect(p.title) AS listaDeArtigos;
+
+
+// =================================================================
+// 2. Funções Matemáticas (Mathematical Functions)
+// =================================================================
+
+// 2.1. Mostrar a média de citações de todos os artigos, arredondada para duas casas decimais.
+MATCH (p:Paper)
+RETURN round(avg(p.citations), 2) AS mediaArredondadaDeCitacoes;
+
+// 2.2. Encontrar o percentil 95 (o valor que 95% das contagens de citações não ultrapassam).
+MATCH (p:Paper)
+RETURN percentileCont(p.citations, 0.95) AS percentil95;
+
+// 2.3. Selecionar 5 artigos aleatoriamente para uma amostra.
+MATCH (p:Paper)
+RETURN p.title AS tituloAleatorio, rand() AS numeroAleatorio
+ORDER BY numeroAleatorio
+LIMIT 5;
+
+// 2.4. Calcular o logaritmo natural (ln) do número de citações dos 10 artigos mais citados.
+// Útil para normalizar dados em análises de data science.
+MATCH (p:Paper)
+WHERE p.citations > 0
+RETURN p.title AS titulo, p.citations AS citacoes, log(p.citations) AS logCitacoes
+ORDER BY citacoes DESC
+LIMIT 10;
+
+// 2.5. Calcular a raiz quadrada do número de citações para artigos que tenham mais de 400 citações.
+MATCH (p:Paper)
+WHERE p.citations > 400
+RETURN p.title AS titulo, p.citations AS citacoes, sqrt(p.citations) AS raizQuadradaCitacoes
+ORDER BY citacoes DESC;
+
+
+// =================================================================
+// 3. Funções de String (String Functions)
+// =================================================================
+
+// 3.1. Encontrar todos os artigos cujo título contenha a palavra 'Database', ignorando maiúsculas e minúsculas.
+MATCH (p:Paper)
+WHERE toLower(p.title) CONTAINS 'database'
+RETURN p.title AS titulo;
+
+// 3.2. Encontrar todos os autores cujo nome começa com 'Chris'.
+MATCH (a:Author)
+WHERE a.name STARTS WITH 'Chris'
+RETURN a.name AS nomeDoAutor;
+
+// 3.3. Listar os 10 títulos de artigos mais longos, junto com o número de caracteres.
+MATCH (p:Paper)
+RETURN p.title AS titulo, size(p.title) AS tamanhoDoTitulo
+ORDER BY tamanhoDoTitulo DESC
+LIMIT 10;
+
+// 3.4. Para cada artigo, mostrar os primeiros 50 caracteres do título, adicionando '...' no final.
+MATCH (p:Paper)
+RETURN substring(p.title, 0, 50) + '...' AS tituloCurto
+LIMIT 20;
+
+// 3.5. Dividir o nome completo dos autores em primeiro nome e sobrenome (considerando o primeiro e último nome para nomes compostos).
+MATCH (a:Author)
+WITH split(a.name, ' ') AS nomes
+RETURN nomes[0] AS primeiroNome, nomes[-1] AS ultimoNome
+LIMIT 20;
