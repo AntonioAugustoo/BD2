@@ -18,7 +18,7 @@ class MongoDBCollection:
 class Neo4jDriver:
     neo4j_host = "neo4j+s://4dbeeb5b.databases.neo4j.io"
     neo4j_user = "neo4j"
-    neo4j_password = "yQb6a9fkxQqcze8YzacmI1pofgE6kU9YaEykJmyMlJM"
+    neo4j_password = "yQb6a9fkxQqcze8YzacmI1pofgE6kU9YaEykJmyMlJM"    
 
     driver = None
 
