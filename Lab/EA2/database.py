@@ -8,7 +8,7 @@ class Database:
         self.driver.close()
 
     def execute_query(self, query, parameters=None):
-          
+        # O conflito de linhas em branco estava aqui e foi removido
         data = []
         with self.driver.session() as session:
             results = session.run(query, parameters)
