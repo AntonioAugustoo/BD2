@@ -140,8 +140,8 @@ def questao_4(user_id):
 def test_questao_4():
     input_id = 3 
     output = [
-        "No último mês pesquisadores testaram três novos medicamentos para ajudar aumentar o foco.", # Score alto (tecnologia)
-        "Aprenda uma receita rápida de onion rings super crocantes.", # Culinaria
+        "No último mês pesquisadores testaram três novos medicamentos para ajudar aumentar o foco.", 
+        "Aprenda uma receita rápida de onion rings super crocantes.", 
         "Se liga nessa lista de jogadores que vão mudar de time no próximo mês!",
         "A dica de hoje envolve os novos delineadores da linha Rare Beauty",
         "Eu quando acho a chuteira que perdi na última pelada...",
